@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+{% block breadcrumb %}
+<li class="dropdown nav-item">
+Workflow
+</li>
+<li class="dropdown nav-item active">
+Upload
+</li>
+{% endblock %}
+{% block main %}
+<div class="row">
+	<div class="col-lg-6 col-xs-6">
+		<section class="widget" id="table-container">
+		    <header>
+		        <h4>
+		        	Carga de archivo para iniciar el proceso de tipificación
+		        </h4>
+		    </header>
+		    <div class="widget-body">
+		    	<div class="dropzone" id="myDrop">
+			    	<div class="dz-message">
+						<p class="mb-xs fw-normal">Arrastre un archivo zip o haz click para empezar la carga</p>
+						<p class="text-muted">(Antes de iniciar el flujo de trabajo verifique que esten <strong>todos las muestras</strong> en el preview de la derecha</p>
+					</div>
+					<div class="fallback">
+						<input name="file" type="file" multiple />
+					</div>
+				</div>
+		    </div>
+		</section>
+	</div>
+	<div class="col-lg-6 col-xs-6">
+		<div class="row">
+			<div class="col-lg-12 col-xs-12">
+				<section class="widget" id="table-container">
+				    <div class="widget-body">
+				    	<button type="button" class="btn btn-primary btn-block"><i class="glyphicon glyphicon-ok"></i> Iniciar flujo de trabajo</button>
+				    </div>
+				</section>
+			</div>
+			<div class="col-lg-12 col-xs-12">
+				<section class="widget" id="table-container">
+				    <header>
+				        <h4>
+				        	Preview
+				        </h4>
+				    </header>
+				    <div class="widget-body">
+				    </div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block snipper %}
+<script type="text/javascript">
+$(function(){
+	Dropzone.autoDiscover = false;
+	$("#myDrop").dropzone({
+		url: "/preview",
+		headers: {
+			"X-CSRFToken": $("[name=csrfmiddlewaretoken]").val(),
+		},
+		acceptedFiles:".ab1",
+		accept: function(file, done) {
+			console.log(file);
+			done();
+		}
+	});
+});
+</script>
+{% endblock %}
